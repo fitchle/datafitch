@@ -1,4 +1,4 @@
-package com.benchion.bendb.benmysql.services;
+package com.fitchle.datafitch.mysql.services;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,8 +15,8 @@ public final class MysqlUpdater {
     public MysqlUpdater(Connection conn, String table) {
         this.conn = conn;
         this.table = table;
-        this.wheres = new HashMap();
-        this.sets = new HashMap();
+        this.wheres = new HashMap<>();
+        this.sets = new HashMap<>();
     }
 
     public MysqlUpdater set(String column, Object value) {
@@ -46,13 +46,13 @@ public final class MysqlUpdater {
 
             i = stmt.executeUpdate();
             return i;
-        } catch (SQLException var12) {
-            var12.printStackTrace();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
         } finally {
             try {
                 stmt.close();
-            } catch (SQLException var11) {
-                var11.printStackTrace();
+            } catch (SQLException exception) {
+                exception.printStackTrace();
             }
 
         }
@@ -61,16 +61,16 @@ public final class MysqlUpdater {
     }
 
     private PreparedStatement build() {
-        ArrayList<String> wheresArr = new ArrayList();
-        ArrayList<String> setsArr = new ArrayList();
+        ArrayList<String> wheresArr = new ArrayList<>();
+        ArrayList<String> setsArr = new ArrayList<>();
         PreparedStatement stmt = null;
         this.wheres.keySet().forEach((k) -> wheresArr.add(k + " = ?"));
         this.sets.keySet().forEach((k) -> setsArr.add(k + " = ?"));
 
         try {
             stmt = this.conn.prepareStatement("UPDATE " + this.table + " SET " + String.join(",", setsArr) + (wheresArr.size() > 0 ? " WHERE " + String.join(" AND ", wheresArr) : ""));
-        } catch (SQLException var5) {
-            var5.printStackTrace();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
         }
 
         return stmt;

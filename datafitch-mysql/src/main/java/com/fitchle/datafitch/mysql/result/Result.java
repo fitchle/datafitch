@@ -1,4 +1,4 @@
-package com.benchion.bendb.benmysql.result;
+package com.fitchle.datafitch.mysql.result;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Optional;
 
 public final class Result {
-    private final HashMap<String, Object> data = new HashMap();
+    private final HashMap<String, Object> data = new HashMap<>();
 
     public Result(ResultSet result) throws SQLException {
         int columnCount = result.getMetaData().getColumnCount();

@@ -1,4 +1,5 @@
-package com.benchion.bendb.benmysql.utils;
+package com.fitchle.datafitch.mysql.utils;
+
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;

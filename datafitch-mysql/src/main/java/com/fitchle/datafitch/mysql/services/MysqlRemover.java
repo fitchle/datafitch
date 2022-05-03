@@ -1,4 +1,4 @@
-package com.benchion.bendb.benmysql.services;
+package com.fitchle.datafitch.mysql.services;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,7 +14,7 @@ public final class MysqlRemover {
     public MysqlRemover(Connection conn, String table) {
         this.conn = conn;
         this.table = table;
-        this.wheres = new HashMap();
+        this.wheres = new HashMap<>();
     }
 
     public MysqlRemover where(String column, Object value) {
@@ -31,13 +31,13 @@ public final class MysqlRemover {
             }
 
             stmt.execute();
-        } catch (SQLException var11) {
-            var11.printStackTrace();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
         } finally {
             try {
                 stmt.close();
-            } catch (SQLException var10) {
-                var10.printStackTrace();
+            } catch (SQLException exception) {
+                exception.printStackTrace();
             }
 
         }
@@ -45,16 +45,14 @@ public final class MysqlRemover {
     }
 
     private PreparedStatement build() {
-        ArrayList<String> wheresArr = new ArrayList();
+        ArrayList<String> wheresArr = new ArrayList<>();
         PreparedStatement stmt = null;
-        this.wheres.keySet().forEach((k) -> {
-            wheresArr.add(k + " = ?");
-        });
+        this.wheres.keySet().forEach((k) -> wheresArr.add(k + " = ?"));
 
         try {
             stmt = this.conn.prepareStatement("DELETE FROM " + this.table + " WHERE " + String.join(" AND ", wheresArr));
-        } catch (SQLException var4) {
-            var4.printStackTrace();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
         }
 
         return stmt;

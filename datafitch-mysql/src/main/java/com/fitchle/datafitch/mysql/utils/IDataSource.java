@@ -1,4 +1,4 @@
-package com.benchion.bendb.benmysql.utils;
+package com.fitchle.datafitch.mysql.utils;
 
 import java.sql.SQLException;
 

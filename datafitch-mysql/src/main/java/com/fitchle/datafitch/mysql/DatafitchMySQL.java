@@ -1,11 +1,11 @@
-package com.benchion.bendb.benmysql;
+package com.fitchle.datafitch.mysql;
 
-import com.benchion.bendb.benmysql.services.MysqlTable;
+import com.fitchle.datafitch.mysql.services.MysqlTable;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public final class BenMySQL {
+public final class DatafitchMySQL {
     private final String host;
     private final int port;
     private final String db;
@@ -21,8 +21,8 @@ public final class BenMySQL {
 
         try {
             return dataSource.connect();
-        } catch (SQLException var3) {
-            var3.printStackTrace();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
             return null;
         }
     }
@@ -31,7 +31,7 @@ public final class BenMySQL {
         return new MysqlTable(conn, name);
     }
 
-    public BenMySQL(String host, int port, String db, String username, String password) {
+    public DatafitchMySQL(String host, int port, String db, String username, String password) {
         this.host = host;
         this.port = port;
         this.db = db;

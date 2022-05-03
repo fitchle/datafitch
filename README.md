@@ -4,33 +4,33 @@
 
 <div align="center">
 
-<h1 align="center" style="margin: 0;">BenDB</h1>
+<h1 align="center" style="margin: 0;">Datafitch</h1>
 <p align="center" style="margin-top: 0; font-size: 1.2rem;">
     An fastest, qualified & easy to use multi database library 
     <br />
-    <a href="https://github.com/Benchion/bendb/wiki"><strong>📖 Documents 📖</strong></a>
+    <a href="https://github.com/Fitchle/datafitch/wiki"><strong>📖 Documents 📖</strong></a>
     <br />
     <br />
-    <a href="https://github.com/Benchion/bendb/issues">Report Bug</a>
+    <a href="https://github.com/Fitchle/datafitch/issues">Report Bug</a>
     ·
-    <a href="https://github.com/Benchion/bendb/issues">Request Feature</a>
+    <a href="https://github.com/Fitchle/datafitch/issues">Request Feature</a>
   </p>
 </div>
 <div align="center">
-    <a href="https://github.com/orgs/Benchion/people">
-        <img src="https://img.shields.io/github/contributors/Benchion/bendb?style=for-the-badge"></img>
+    <a href="https://github.com/orgs/Fitchle/people">
+        <img src="https://img.shields.io/github/contributors/Fitchle/datafitch?style=for-the-badge"></img>
     </a>
-    <a href="https://github.com/Benchion/bendb/network/members">
-        <img src="https://img.shields.io/github/forks/Benchion/bendb?style=for-the-badge"></img>
+    <a href="https://github.com/Fitchle/datafitch/network/members">
+        <img src="https://img.shields.io/github/forks/Fitchle/datafitch?style=for-the-badge"></img>
     </a>
-    <a href="https://github.com/Benchion/bendb/stargazers">
-        <img src="https://img.shields.io/github/stars/Benchion/bendb?style=for-the-badge"></img>
+    <a href="https://github.com/Fitchle/datafitch/stargazers">
+        <img src="https://img.shields.io/github/stars/Fitchle/datafitch?style=for-the-badge"></img>
     </a>
-    <a href="https://github.com/Benchion/bendb/issues">
-        <img src="https://img.shields.io/github/issues/Benchion/bendb?style=for-the-badge"></img>
+    <a href="https://github.com/Fitchle/datafitch/issues">
+        <img src="https://img.shields.io/github/issues/Fitchle/datafitch?style=for-the-badge"></img>
     </a>
-    <a href="https://github.com/Benchion/bendb/blob/main/LICENSE">
-        <img src="https://img.shields.io/github/license/Benchion/bendb?style=for-the-badge"></img>
+    <a href="https://github.com/Fitchle/datafitch/blob/main/LICENSE">
+        <img src="https://img.shields.io/github/license/Fitchle/datafitch?style=for-the-badge"></img>
     </a>
 
 </div>
@@ -88,8 +88,8 @@ In this project, HikariCP was used as connection pool and lombok was<br> used fo
 ```xml
 
 <dependency>
-    <groupId>com.benchion.bendb</groupId>
-    <artifactId>benmysql</artifactId>
+    <groupId>com.fitchle.datafitch</groupId>
+    <artifactId>datafitch-%DB%</artifactId>
     <version>version</version>
 </dependency>
 ```
@@ -102,7 +102,7 @@ In this project, HikariCP was used as connection pool and lombok was<br> used fo
 <h4 style="margin-top: 30px;">Connecting to Database (MYSQL)</h4>
 
 ```java
-    BenMySQL mysql=new BenMySQL("host",3306,"db","username","password");
+    DatafitchMySQL mysql=new DatafitchMySQL("host",3306,"db","username","password");
         Connection conn=mysql.connect();
         // Do something
         conn.close();

@@ -1,4 +1,4 @@
-package com.benchion.bendb.benmysql.services;
+package com.fitchle.datafitch.mysql.services;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,7 +15,7 @@ public final class MysqlInserter {
     public MysqlInserter(Connection conn, String table) {
         this.conn = conn;
         this.table = table;
-        this.values = new ArrayList();
+        this.values = new ArrayList<>();
     }
 
     public MysqlInserter insert(Object... value) {
@@ -32,13 +32,13 @@ public final class MysqlInserter {
             }
 
             stmt.execute();
-        } catch (SQLException var11) {
-            var11.printStackTrace();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
         } finally {
             try {
                 stmt.close();
-            } catch (SQLException var10) {
-                var10.printStackTrace();
+            } catch (SQLException exception) {
+                exception.printStackTrace();
             }
 
         }
@@ -50,18 +50,16 @@ public final class MysqlInserter {
 
         try {
             stmt = this.conn.prepareStatement("INSERT INTO " + this.table + " VALUES (" + String.join(", ", this.convertQuery(this.values)) + ")");
-        } catch (SQLException var3) {
-            var3.printStackTrace();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
         }
 
         return stmt;
     }
 
     private ArrayList<String> convertQuery(Collection<Object> collection) {
-        ArrayList<String> str = new ArrayList();
-        collection.forEach((k) -> {
-            str.add("?");
-        });
+        ArrayList<String> str = new ArrayList<>();
+        collection.forEach((k) -> str.add("?"));
         return str;
     }
 }

@@ -1,6 +1,6 @@
-package com.benchion.bendb.benmysql;
+package com.fitchle.datafitch.mysql;
 
-import com.benchion.bendb.benmysql.utils.DataSource;
+import com.fitchle.datafitch.mysql.utils.DataSource;
 import com.zaxxer.hikari.HikariDataSource;
 
 import java.sql.Connection;

@@ -1,6 +1,6 @@
-package com.benchion.bendb.benmysql.services;
+package com.fitchle.datafitch.mysql.services;
 
-import com.benchion.bendb.benmysql.result.Result;
+import com.fitchle.datafitch.mysql.result.Result;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,8 +18,8 @@ public final class MysqlFetcher {
     public MysqlFetcher(Connection conn, String table) {
         this.conn = conn;
         this.table = table;
-        this.columns = new ArrayList();
-        this.wheres = new HashMap();
+        this.columns = new ArrayList<>();
+        this.wheres = new HashMap<>();
     }
 
     public MysqlFetcher select(String column) {
@@ -45,16 +45,15 @@ public final class MysqlFetcher {
             ResultSet result = stmt.executeQuery();
             Result r = new Result(result);
             result.close();
-            Result var4 = r;
-            return var4;
-        } catch (SQLException var14) {
-            var14.printStackTrace();
+            return r;
+        } catch (SQLException exception) {
+            exception.printStackTrace();
         } finally {
             if (stmt != null) {
                 try {
                     stmt.close();
-                } catch (SQLException var13) {
-                    var13.printStackTrace();
+                } catch (SQLException exception) {
+                    exception.printStackTrace();
                 }
             }
 
@@ -64,16 +63,14 @@ public final class MysqlFetcher {
     }
 
     private PreparedStatement build() {
-        ArrayList<String> whereArr = new ArrayList();
+        ArrayList<String> whereArr = new ArrayList<>();
         PreparedStatement stmt = null;
-        this.wheres.keySet().forEach((key) -> {
-            whereArr.add(key + " = ?");
-        });
+        this.wheres.keySet().forEach((key) -> whereArr.add(key + " = ?"));
 
         try {
             stmt = this.conn.prepareStatement("SELECT " + String.join(", ", this.columns) + " FROM " + this.table + (whereArr.size() > 0 ? " WHERE " + String.join(" AND ", whereArr) : ""));
-        } catch (SQLException var4) {
-            var4.printStackTrace();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
         }
 
         return stmt;

@@ -1,4 +1,4 @@
-package com.benchion.bendb.benmysql.services;
+package com.fitchle.datafitch.mysql.services;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -23,6 +23,7 @@ public final class MysqlTable {
             var11.printStackTrace();
         } finally {
             try {
+                assert statement != null;
                 statement.close();
             } catch (SQLException var10) {
                 var10.printStackTrace();
@@ -43,6 +44,7 @@ public final class MysqlTable {
             var12.printStackTrace();
         } finally {
             try {
+                assert statement != null;
                 statement.close();
             } catch (SQLException var11) {
                 var11.printStackTrace();
