@@ -78,6 +78,7 @@ In this project, HikariCP was used as connection pool and lombok was<br> used fo
 
 * [HikariCP](https://github.com/brettwooldridge/HikariCP)
 * [Lombok](https://projectlombok.org)
+* [MongoDB Driver](https://www.mongodb.com/docs/drivers/java-drivers/)
 
 ## 🌙 Getting Started
 
@@ -102,10 +103,19 @@ In this project, HikariCP was used as connection pool and lombok was<br> used fo
 <h4 style="margin-top: 30px;">Connecting to Database (MYSQL)</h4>
 
 ```java
-    DatafitchMySQL mysql=new DatafitchMySQL("host",3306,"db","username","password");
-        Connection conn=mysql.connect();
-        // Do something
-        conn.close();
+    DatafitchMySQL mysql = new DatafitchMySQL("host", 3306, "db", "username", "password");
+    Connection conn=mysql.connect();
+    // Do something
+    conn.close();
+```
+
+<h4 style="margin-top: 30px;">Connecting to Database (MongoDB)</h4>
+
+```java
+    DatafitchMongo mongo = new DatafitchMongo("host", 27017, "username", "password");
+    MongoDatabase database = mongo.database("database");
+    database.collection("collection"); // ...
+    // Do something
 ```
 
 For more examples, please refer to the [Documentation](https://gitbook.io)

@@ -1,10 +1,12 @@
 package com.fitchle.datafitch.mysql;
 
-import com.fitchle.datafitch.mysql.services.MysqlTable;
+import com.fitchle.datafitch.mysql.models.MysqlTable;
+import lombok.AllArgsConstructor;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 
+@AllArgsConstructor
 public final class DatafitchMySQL {
     private final String host;
     private final int port;
@@ -13,7 +15,7 @@ public final class DatafitchMySQL {
     private final String password;
 
     public Connection connect() {
-        MysqlDataSource dataSource = new MysqlDataSource(this.host, this.port, this.db, this.username, this.password);
+        MysqlDatasource dataSource = new MysqlDatasource(this.host, this.port, this.db, this.username, this.password);
         dataSource.addProperty("dataSource.cachePrepStmts", "true");
         dataSource.addProperty("dataSource.prepStmtCacheSize", "250");
         dataSource.addProperty("dataSource.prepStmtCacheSqlLimit", "2048");
@@ -29,13 +31,5 @@ public final class DatafitchMySQL {
 
     public MysqlTable table(Connection conn, String name) {
         return new MysqlTable(conn, name);
-    }
-
-    public DatafitchMySQL(String host, int port, String db, String username, String password) {
-        this.host = host;
-        this.port = port;
-        this.db = db;
-        this.username = username;
-        this.password = password;
     }
 }

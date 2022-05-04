@@ -2,19 +2,17 @@ package com.fitchle.datafitch.mysql;
 
 import com.fitchle.datafitch.mysql.utils.DataSource;
 import com.zaxxer.hikari.HikariDataSource;
+import lombok.Getter;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 
-final class MysqlDataSource extends DataSource<Connection> {
-    private final String host;
-    private final String db;
-    private final String username;
-    private final String password;
-    private final String url;
+@Getter
+final class MysqlDatasource extends DataSource<Connection> {
+    private final String host, db, username, password, url;
     private final int port;
 
-    public MysqlDataSource(String host, int port, String db, String username, String password) {
+    public MysqlDatasource(String host, int port, String db, String username, String password) {
         this.host = host;
         this.port = port;
         this.db = db;
@@ -38,29 +36,5 @@ final class MysqlDataSource extends DataSource<Connection> {
 
     public void close() {
         this.dataSource.close();
-    }
-
-    public String getHost() {
-        return this.host;
-    }
-
-    public String getDb() {
-        return this.db;
-    }
-
-    public String getUsername() {
-        return this.username;
-    }
-
-    public String getPassword() {
-        return this.password;
-    }
-
-    public String getUrl() {
-        return this.url;
-    }
-
-    public int getPort() {
-        return this.port;
     }
 }

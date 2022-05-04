@@ -1,4 +1,9 @@
-package com.fitchle.datafitch.mysql.services;
+package com.fitchle.datafitch.mysql.models;
+
+import com.fitchle.datafitch.mysql.services.MysqlFetcher;
+import com.fitchle.datafitch.mysql.services.MysqlInserter;
+import com.fitchle.datafitch.mysql.services.MysqlRemover;
+import com.fitchle.datafitch.mysql.services.MysqlUpdater;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,14 +24,14 @@ public final class MysqlTable {
         try {
             statement = this.conn.prepareStatement("DROP TABLE IF EXISTS " + this.table);
             statement.executeUpdate();
-        } catch (SQLException var11) {
-            var11.printStackTrace();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
         } finally {
             try {
                 assert statement != null;
                 statement.close();
-            } catch (SQLException var10) {
-                var10.printStackTrace();
+            } catch (SQLException exception) {
+                exception.printStackTrace();
             }
 
         }
@@ -40,14 +45,14 @@ public final class MysqlTable {
         try {
             statement = this.conn.prepareStatement("CREATE TABLE if not exists " + this.table + " (" + String.join(", ", columns) + ");");
             statement.execute();
-        } catch (SQLException var12) {
-            var12.printStackTrace();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
         } finally {
             try {
                 assert statement != null;
                 statement.close();
-            } catch (SQLException var11) {
-                var11.printStackTrace();
+            } catch (SQLException exception) {
+                exception.printStackTrace();
             }
 
         }

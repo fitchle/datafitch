@@ -1,6 +1,6 @@
 package com.fitchle.datafitch.mysql.services;
 
-import com.fitchle.datafitch.mysql.result.Result;
+import com.fitchle.datafitch.mysql.models.Result;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

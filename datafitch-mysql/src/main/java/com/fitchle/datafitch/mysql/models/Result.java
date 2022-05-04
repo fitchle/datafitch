@@ -1,4 +1,4 @@
-package com.fitchle.datafitch.mysql.result;
+package com.fitchle.datafitch.mysql.models;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

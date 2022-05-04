@@ -10,6 +10,7 @@
     <version>1.0</version>
     <modules>
         <module>datafitch-mysql</module>
+        <module>datafitch-mongo</module>
     </modules>
 
     <properties>
