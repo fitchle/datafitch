@@ -18,45 +18,20 @@ public final class MysqlTable {
         this.table = table;
     }
 
-    public MysqlTable remove() {
-        PreparedStatement statement = null;
-
-        try {
-            statement = this.conn.prepareStatement("DROP TABLE IF EXISTS " + this.table);
+    public MysqlTable remove() throws SQLException {
+        try(PreparedStatement statement = this.conn.prepareStatement("DROP TABLE IF EXISTS " + this.table)) {
             statement.executeUpdate();
-        } catch (SQLException exception) {
-            exception.printStackTrace();
-        } finally {
-            try {
-                assert statement != null;
-                statement.close();
-            } catch (SQLException exception) {
-                exception.printStackTrace();
-            }
-
         }
 
         return this;
     }
 
     public MysqlTable create(String... columns) {
-        PreparedStatement statement = null;
-
-        try {
-            statement = this.conn.prepareStatement("CREATE TABLE if not exists " + this.table + " (" + String.join(", ", columns) + ");");
+        try (PreparedStatement statement = this.conn.prepareStatement("CREATE TABLE if not exists " + this.table + " (" + String.join(", ", columns) + ");")) {
             statement.execute();
-        } catch (SQLException exception) {
-            exception.printStackTrace();
-        } finally {
-            try {
-                assert statement != null;
-                statement.close();
-            } catch (SQLException exception) {
-                exception.printStackTrace();
-            }
-
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
         return this;
     }
 

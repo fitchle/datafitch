@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Optional;
 
 public final class MysqlFetcher {
     private final Connection conn;
@@ -32,47 +33,31 @@ public final class MysqlFetcher {
         return this;
     }
 
-    public Result execute() {
-        PreparedStatement stmt = this.build();
-
-        try {
-            if (this.wheres.size() > 0) {
-                for (int i = 0; i < this.wheres.values().size(); ++i) {
-                    stmt.setObject(i + 1, this.wheres.values().toArray()[i]);
+    public Result execute() throws SQLException {
+        try (PreparedStatement stmt = this.build().orElseThrow(SQLException::new)) {
+            try {
+                if (this.wheres.size() > 0) {
+                    for (int i = 0; i < this.wheres.values().size(); ++i) {
+                        stmt.setObject(i + 1, this.wheres.values().toArray()[i]);
+                    }
                 }
-            }
 
-            ResultSet result = stmt.executeQuery();
-            Result r = new Result(result);
-            result.close();
-            return r;
-        } catch (SQLException exception) {
-            exception.printStackTrace();
-        } finally {
-            if (stmt != null) {
-                try {
-                    stmt.close();
-                } catch (SQLException exception) {
-                    exception.printStackTrace();
-                }
+                ResultSet result = stmt.executeQuery();
+                Result r = new Result(result);
+                result.close();
+                return r;
+            } catch (SQLException exception) {
+                exception.printStackTrace();
             }
-
         }
+
 
         return null;
     }
 
-    private PreparedStatement build() {
+    private Optional<PreparedStatement> build() throws SQLException {
         ArrayList<String> whereArr = new ArrayList<>();
-        PreparedStatement stmt = null;
-        this.wheres.keySet().forEach((key) -> whereArr.add(key + " = ?"));
-
-        try {
-            stmt = this.conn.prepareStatement("SELECT " + String.join(", ", this.columns) + " FROM " + this.table + (whereArr.size() > 0 ? " WHERE " + String.join(" AND ", whereArr) : ""));
-        } catch (SQLException exception) {
-            exception.printStackTrace();
-        }
-
-        return stmt;
+        this.wheres.keySet().forEach(key -> whereArr.add(key + " = ?"));
+        return Optional.of(this.conn.prepareStatement("SELECT " + String.join(", ", this.columns) + " FROM " + this.table + (whereArr.isEmpty() ? " WHERE " + String.join(" AND ", whereArr) : "")));
     }
 }

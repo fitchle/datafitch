@@ -2,12 +2,9 @@ package com.fitchle.datafitch.mongo.services;
 
 import com.fitchle.datafitch.mongo.models.MongoStack;
 import com.mongodb.MongoClient;
-import com.mongodb.client.FindIterable;
-import com.mongodb.client.internal.MongoIterables;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -17,6 +14,11 @@ public final class MongoFinder extends MongoService {
 
     public MongoFinder(MongoStack stack) {
         super(stack);
+    }
+
+    public static <T> List<T> toList(final Iterable<T> iterable) {
+        return StreamSupport.stream(iterable.spliterator(), false)
+                .collect(Collectors.toList());
     }
 
     public Document findOne(String query) {
@@ -41,10 +43,5 @@ public final class MongoFinder extends MongoService {
         try (MongoClient client = this.stack.getMongo().connect()) {
             return toList(client.getDatabase(this.stack.getDb()).getCollection(this.stack.getName()).find(query));
         }
-    }
-
-    public static <T> List<T> toList(final Iterable<T> iterable) {
-        return StreamSupport.stream(iterable.spliterator(), false)
-                .collect(Collectors.toList());
     }
 }

@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Optional;
 
 public final class MysqlInserter {
     private final Connection conn;
@@ -23,43 +24,23 @@ public final class MysqlInserter {
         return this;
     }
 
-    public void execute() {
-        PreparedStatement stmt = this.build();
-
-        try {
+    public void execute() throws SQLException {
+        try (PreparedStatement stmt = this.build().orElseThrow(SQLException::new)) {
             for (int i = 0; i < this.values.size(); ++i) {
                 stmt.setObject(i + 1, this.values.get(i));
             }
 
             stmt.execute();
-        } catch (SQLException exception) {
-            exception.printStackTrace();
-        } finally {
-            try {
-                stmt.close();
-            } catch (SQLException exception) {
-                exception.printStackTrace();
-            }
-
         }
-
     }
 
-    private PreparedStatement build() {
-        PreparedStatement stmt = null;
-
-        try {
-            stmt = this.conn.prepareStatement("INSERT INTO " + this.table + " VALUES (" + String.join(", ", this.convertQuery(this.values)) + ")");
-        } catch (SQLException exception) {
-            exception.printStackTrace();
-        }
-
-        return stmt;
+    private Optional<PreparedStatement> build() throws SQLException {
+            return Optional.ofNullable(this.conn.prepareStatement("INSERT INTO " + this.table + " VALUES (" + String.join(", ", this.convertQuery(this.values)) + ")"));
     }
 
     private ArrayList<String> convertQuery(Collection<Object> collection) {
         ArrayList<String> str = new ArrayList<>();
-        collection.forEach((k) -> str.add("?"));
+        collection.forEach(k -> str.add("?"));
         return str;
     }
 }

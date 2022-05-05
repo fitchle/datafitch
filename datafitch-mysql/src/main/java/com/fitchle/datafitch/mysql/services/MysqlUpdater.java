@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Optional;
 
 public final class MysqlUpdater {
     private final Connection conn;
@@ -29,10 +30,8 @@ public final class MysqlUpdater {
         return this;
     }
 
-    public int execute() {
-        PreparedStatement stmt = this.build();
-
-        try {
+    public int execute() throws SQLException {
+        try (PreparedStatement stmt = this.build().orElseThrow(SQLException::new)) {
             int i;
             for (i = 0; i < this.sets.values().size(); ++i) {
                 stmt.setObject(i + 1, this.sets.values().toArray()[i]);
@@ -46,33 +45,14 @@ public final class MysqlUpdater {
 
             i = stmt.executeUpdate();
             return i;
-        } catch (SQLException exception) {
-            exception.printStackTrace();
-        } finally {
-            try {
-                stmt.close();
-            } catch (SQLException exception) {
-                exception.printStackTrace();
-            }
-
         }
-
-        return 0;
     }
 
-    private PreparedStatement build() {
+    private Optional<PreparedStatement> build() throws SQLException {
         ArrayList<String> wheresArr = new ArrayList<>();
         ArrayList<String> setsArr = new ArrayList<>();
-        PreparedStatement stmt = null;
-        this.wheres.keySet().forEach((k) -> wheresArr.add(k + " = ?"));
-        this.sets.keySet().forEach((k) -> setsArr.add(k + " = ?"));
-
-        try {
-            stmt = this.conn.prepareStatement("UPDATE " + this.table + " SET " + String.join(",", setsArr) + (wheresArr.size() > 0 ? " WHERE " + String.join(" AND ", wheresArr) : ""));
-        } catch (SQLException exception) {
-            exception.printStackTrace();
-        }
-
-        return stmt;
+        this.wheres.keySet().forEach(k -> wheresArr.add(k + " = ?"));
+        this.sets.keySet().forEach(k -> setsArr.add(k + " = ?"));
+        return Optional.ofNullable(this.conn.prepareStatement("UPDATE " + this.table + " SET " + String.join(",", setsArr) + (!wheresArr.isEmpty() ? " WHERE " + String.join(" AND ", wheresArr) : "")));
     }
 }

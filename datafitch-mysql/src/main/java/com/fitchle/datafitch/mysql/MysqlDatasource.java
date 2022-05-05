@@ -9,7 +9,11 @@ import java.sql.SQLException;
 
 @Getter
 final class MysqlDatasource extends DataSource<Connection> {
-    private final String host, db, username, password, url;
+    private final String host;
+    private final String db;
+    private final String username;
+    private final String password;
+    private final String url;
     private final int port;
 
     public MysqlDatasource(String host, int port, String db, String username, String password) {
@@ -21,20 +25,21 @@ final class MysqlDatasource extends DataSource<Connection> {
         this.url = "jdbc:mysql://" + this.host + ":" + this.port + "/" + db;
     }
 
+    @Override
     public void build() {
         super.build();
         this.config.setJdbcUrl(this.url);
         this.config.setUsername(this.username);
         this.config.setPassword(this.password);
-        this.dataSource = new HikariDataSource(this.config);
+        this.hikariDataSource = new HikariDataSource(this.config);
     }
 
     public Connection connect() throws SQLException {
         this.build();
-        return this.dataSource.getConnection();
+        return this.hikariDataSource.getConnection();
     }
 
     public void close() {
-        this.dataSource.close();
+        this.hikariDataSource.close();
     }
 }

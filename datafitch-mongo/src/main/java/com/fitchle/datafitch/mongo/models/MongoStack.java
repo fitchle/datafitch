@@ -15,7 +15,8 @@ import java.util.ArrayList;
 @Getter
 @RequiredArgsConstructor
 public final class MongoStack {
-    private final String db, name;
+    private final String db;
+    private final String name;
     private final DatafitchMongo mongo;
 
     public MongoStack create() {

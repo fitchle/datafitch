@@ -9,7 +9,7 @@ import java.util.Properties;
 public abstract class DataSource<T> implements IDataSource<T> {
     protected HikariConfig config = new HikariConfig();
     protected Properties properties = new Properties();
-    protected HikariDataSource dataSource;
+    protected HikariDataSource hikariDataSource;
 
     public void addProperty(String key, String value) {
         this.properties.setProperty(key, value);

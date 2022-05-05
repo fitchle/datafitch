@@ -11,7 +11,8 @@ import lombok.RequiredArgsConstructor;
 final class MongoDatasource {
     private final String host;
     private final int port;
-    private final String username, password;
+    private final String username;
+    private final String password;
 
     private MongoClientURI uri;
     private MongoClientOptions options;

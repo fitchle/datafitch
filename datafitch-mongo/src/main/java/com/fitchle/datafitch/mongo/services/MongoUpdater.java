@@ -7,6 +7,7 @@ import org.bson.Document;
 import org.bson.conversions.Bson;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public final class MongoUpdater extends MongoService {
     private final ArrayList<UpdateResult> results;
@@ -48,7 +49,7 @@ public final class MongoUpdater extends MongoService {
         return this;
     }
 
-    public ArrayList<UpdateResult> results() {
+    public List<UpdateResult> results() {
         return this.results;
     }
 

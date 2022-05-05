@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Optional;
 
 public final class MysqlRemover {
     private final String table;
@@ -22,39 +23,19 @@ public final class MysqlRemover {
         return this;
     }
 
-    public void execute() {
-        PreparedStatement stmt = this.build();
-
-        try {
+    public void execute() throws SQLException {
+        try (PreparedStatement stmt = this.build().orElseThrow(SQLException::new)) {
             for (int i = 0; i < this.wheres.values().size(); ++i) {
                 stmt.setObject(i + 1, this.wheres.values().toArray()[i]);
             }
 
             stmt.execute();
-        } catch (SQLException exception) {
-            exception.printStackTrace();
-        } finally {
-            try {
-                stmt.close();
-            } catch (SQLException exception) {
-                exception.printStackTrace();
-            }
-
         }
-
     }
 
-    private PreparedStatement build() {
+    private Optional<PreparedStatement> build() throws SQLException {
         ArrayList<String> wheresArr = new ArrayList<>();
-        PreparedStatement stmt = null;
-        this.wheres.keySet().forEach((k) -> wheresArr.add(k + " = ?"));
-
-        try {
-            stmt = this.conn.prepareStatement("DELETE FROM " + this.table + " WHERE " + String.join(" AND ", wheresArr));
-        } catch (SQLException exception) {
-            exception.printStackTrace();
-        }
-
-        return stmt;
+        this.wheres.keySet().forEach(k -> wheresArr.add(k + " = ?"));
+        return Optional.ofNullable(this.conn.prepareStatement("DELETE FROM " + this.table + " WHERE " + String.join(" AND ", wheresArr)));
     }
 }
