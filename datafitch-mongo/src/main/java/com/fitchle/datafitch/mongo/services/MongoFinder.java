@@ -44,4 +44,12 @@ public final class MongoFinder extends MongoService {
             return toList(client.getDatabase(this.stack.getDb()).getCollection(this.stack.getName()).find(query));
         }
     }
+
+    public Document findById(Object id) {
+        return findOne(new Document("_id", id));
+    }
+
+    public List<Document> findManyById(Object id){
+        return findMany(new Document("_id", id));
+    }
 }
